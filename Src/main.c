@@ -47,6 +47,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
+#include <stm32f0xx_ll_gpio.h>
 #include "main.h"
 #include "stm32f0xx_hal.h"
 #include "cmsis_os.h"
@@ -88,7 +89,6 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
   /* USER CODE END Init */
 
   /* Configure the system clock */
