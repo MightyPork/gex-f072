@@ -1,0 +1,39 @@
+Index: Src/stm32f1xx_hal_msp.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Src/stm32f1xx_hal_msp.c	(revision f2861f336546d616161007943aa21fe1560c91b0)
++++ Src/stm32f1xx_hal_msp.c	(revision )
+@@ -49,7 +49,6 @@
+ /* Includes ------------------------------------------------------------------*/
+ #include "stm32f1xx_hal.h"
+ 
+-extern void _Error_Handler(char *, int);
+ /* USER CODE BEGIN 0 */
+ 
+ /* USER CODE END 0 */
+Index: Inc/usb.h
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Inc/usb.h	(revision f2861f336546d616161007943aa21fe1560c91b0)
++++ Inc/usb.h	(revision )
+@@ -56,6 +56,7 @@
+ /* Includes ------------------------------------------------------------------*/
+ #include "stm32f1xx_hal.h"
+ #include "main.h"
++#include "stm32_assert.h"
+ 
+ /* USER CODE BEGIN Includes */
+ 
+@@ -67,8 +68,6 @@
+ 
+ /* USER CODE END Private defines */
+ 
+-extern void _Error_Handler(char *, int);
+-
+ void MX_USB_PCD_Init(void);
+ 
+ /* USER CODE BEGIN Prototypes */

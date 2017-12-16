@@ -1,0 +1,31 @@
+Index: Inc/i2c.h
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Inc/i2c.h	(date 1511220966000)
++++ Inc/i2c.h	(revision )
+@@ -67,7 +67,6 @@
+ 
+ /* USER CODE END Private defines */
+ 
+-extern void _Error_Handler(char *, int);
+ 
+ void MX_I2C1_Init(void);
+ 
+Index: Inc/spi.h
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Inc/spi.h	(date 1511220966000)
++++ Inc/spi.h	(revision )
+@@ -67,8 +67,6 @@
+ 
+ /* USER CODE END Private defines */
+ 
+-extern void _Error_Handler(char *, int);
+-
+ void MX_SPI1_Init(void);
+ 
+ /* USER CODE BEGIN Prototypes */

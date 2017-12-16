@@ -1,0 +1,60 @@
+Index: Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd.h
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd.h	(revision 58248b7c8c9be227130e4b1e5eed906708cf110b)
++++ Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd.h	(revision )
+@@ -118,8 +118,8 @@
+   PCD_TypeDef             *Instance;   /*!< Register base address               */
+   PCD_InitTypeDef         Init;        /*!< PCD required parameters             */
+   __IO uint8_t            USB_Address; /*!< USB Address: not used by USB OTG FS */  
+-  PCD_EPTypeDef           IN_ep[16];   /*!< IN endpoint parameters              */
+-  PCD_EPTypeDef           OUT_ep[16];  /*!< OUT endpoint parameters             */
++  PCD_EPTypeDef           IN_ep[USBD_NUM_ENDPOINTS+1];   /*!< IN endpoint parameters              */
++  PCD_EPTypeDef           OUT_ep[USBD_NUM_ENDPOINTS+1];  /*!< OUT endpoint parameters             */
+   HAL_LockTypeDef         Lock;        /*!< PCD peripheral status               */
+   __IO PCD_StateTypeDef   State;       /*!< PCD communication state             */
+   uint32_t                Setup[12U];   /*!< Setup packet buffer                 */
+Index: Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pcd.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pcd.c	(revision 58248b7c8c9be227130e4b1e5eed906708cf110b)
++++ Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pcd.c	(revision )
+@@ -181,7 +181,7 @@
+   USB_SetCurrentMode(hpcd->Instance , USB_DEVICE_MODE);
+  
+   /* Init endpoints structures */
+-  for (index = 0U; index < 15U ; index++)
++  for (index = 0U; index < USBD_NUM_ENDPOINTS ; index++)
+   {
+     /* Init ep structure */
+     hpcd->IN_ep[index].is_in = 1U;
+@@ -194,7 +194,7 @@
+     hpcd->IN_ep[index].xfer_len = 0U;
+   }
+  
+-  for (index = 0U; index < 15U ; index++)
++  for (index = 0U; index < USBD_NUM_ENDPOINTS ; index++)
+   {
+     hpcd->OUT_ep[index].is_in = 0U;
+     hpcd->OUT_ep[index].num = index;
+Index: Inc/stm32f1xx_hal_conf.h
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Inc/stm32f1xx_hal_conf.h	(revision 58248b7c8c9be227130e4b1e5eed906708cf110b)
++++ Inc/stm32f1xx_hal_conf.h	(revision )
+@@ -44,6 +44,9 @@
+ /* Exported types ------------------------------------------------------------*/
+ /* Exported constants --------------------------------------------------------*/
+ 
++// XXX CUSTOM CONSTANTS
++#define USBD_NUM_ENDPOINTS 3 // max 15
++
+ /* ########################## Module Selection ############################## */
+ /**
+   * @brief This is the list of modules to be used in the HAL driver 

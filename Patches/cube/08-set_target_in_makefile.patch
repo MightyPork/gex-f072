@@ -1,0 +1,16 @@
+Index: Makefile
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Makefile	(date 1512425387000)
++++ Makefile	(revision )
+@@ -13,7 +13,7 @@
+ ######################################
+ # target
+ ######################################
+-TARGET = gex_f103
++TARGET = firmware
+ 
+ 
+ ######################################

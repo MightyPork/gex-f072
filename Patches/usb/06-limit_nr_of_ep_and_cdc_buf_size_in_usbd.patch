@@ -1,0 +1,34 @@
+Index: Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h	(revision 58248b7c8c9be227130e4b1e5eed906708cf110b)
++++ Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h	(revision )
+@@ -230,8 +230,8 @@
+   uint32_t                dev_default_config;
+   uint32_t                dev_config_status; 
+   USBD_SpeedTypeDef       dev_speed; 
+-  USBD_EndpointTypeDef    ep_in[15];
+-  USBD_EndpointTypeDef    ep_out[15];
++  USBD_EndpointTypeDef    ep_in[USBD_NUM_ENDPOINTS];
++  USBD_EndpointTypeDef    ep_out[USBD_NUM_ENDPOINTS];
+   uint32_t                ep0_state;  
+   uint32_t                ep0_data_len;     
+   uint8_t                 dev_state;
+Index: Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h	(revision 58248b7c8c9be227130e4b1e5eed906708cf110b)
++++ Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h	(revision )
+@@ -112,7 +112,7 @@
+ 
+ typedef struct
+ {
+-  uint32_t data[CDC_DATA_HS_MAX_PACKET_SIZE/4];      /* Force 32bits alignment */
++  uint32_t data[CDC_DATA_FS_MAX_PACKET_SIZE/4];      /* Force 32bits alignment */
+   uint8_t  CmdOpCode;
+   uint8_t  CmdLength;    
+   uint8_t  *RxBuffer;  
