@@ -38,9 +38,9 @@ include_directories(
 
         # CMSIS + HAL
         Drivers/CMSIS/Include
-        Drivers/CMSIS/Device/ST/STM32F1xx/Include
-        Drivers/STM32F1xx_HAL_Driver/Inc
-        Drivers/STM32F1xx_HAL_Driver/Inc/Legacy
+        Drivers/CMSIS/Device/ST/STM32F0xx/Include
+        Drivers/STM32F0xx_HAL_Driver/Inc
+        Drivers/STM32F0xx_HAL_Driver/Inc/Legacy
 
         # USB Library
         User/USB/STM32_USB_Device_Library/Core/Inc

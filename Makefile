@@ -11,7 +11,7 @@
 # ------------------------------------------------
 
 include User/gex.mk
-GEX_PLAT=F072B_DISCOVERY
+GEX_PLAT=F072_DISCOVERY
 
 ######################################
 # target
@@ -82,18 +82,14 @@ Middlewares/Third_Party/FreeRTOS/Source/croutine.c \
 Middlewares/Third_Party/FreeRTOS/Source/event_groups.c \
 Middlewares/Third_Party/FreeRTOS/Source/list.c \
 Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0/port.c \
-Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c \
 Middlewares/Third_Party/FreeRTOS/Source/queue.c \
 Middlewares/Third_Party/FreeRTOS/Source/tasks.c \
 Middlewares/Third_Party/FreeRTOS/Source/timers.c \
-Src/freertos.c \
-Src/gpio.c \
 Src/main.c \
 Src/stm32f0xx_hal_msp.c \
 Src/stm32f0xx_hal_timebase_TIM.c \
 Src/stm32f0xx_it.c \
 Src/system_stm32f0xx.c \
-Src/usb.c \
 Src/main.c  
 
 C_SOURCES += $(foreach sdir,$(GEX_SRC_DIR),$(wildcard $(sdir)/*.c))

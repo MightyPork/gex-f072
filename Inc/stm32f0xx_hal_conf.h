@@ -43,6 +43,7 @@
 #include "main.h"
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
+#define USBD_NUM_ENDPOINTS 3
 
 /* ########################## Module Selection ############################## */
 /**
@@ -168,12 +169,6 @@
 #define  PREFETCH_ENABLE              1              
 #define  INSTRUCTION_CACHE_ENABLE     0
 #define  DATA_CACHE_ENABLE            0
-/* ########################## Assert Selection ############################## */
-/**
-  * @brief Uncomment the line below to expanse the "assert_param" macro in the 
-  *        HAL drivers code
-  */
- #define USE_FULL_ASSERT   1U 
 
 /* ################## SPI peripheral configuration ########################## */
 
@@ -293,23 +288,6 @@
  #include "stm32f0xx_hal_wwdg.h"
 #endif /* HAL_WWDG_MODULE_ENABLED */
 
-/* Exported macro ------------------------------------------------------------*/
-#ifdef  USE_FULL_ASSERT
-/**
-  * @brief  The assert_param macro is used for function's parameters check.
-  * @param  expr: If expr is false, it calls assert_failed function
-  *         which reports the name of the source file and the source
-  *         line number of the call that failed. 
-  *         If expr is true, it returns no value.
-  * @retval None
-  */
-  #define assert_param(expr) ((expr) ? (void)0U : assert_failed((uint8_t *)__FILE__, __LINE__))
-/* Exported functions ------------------------------------------------------- */
-  void assert_failed(uint8_t* file, uint32_t line);
-#else
-  #define assert_param(expr) ((void)0U)
-#endif /* USE_FULL_ASSERT */    
-    
 #ifdef __cplusplus
 }
 #endif

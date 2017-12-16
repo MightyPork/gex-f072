@@ -50,11 +50,9 @@
 #include "main.h"
 #include "stm32f0xx_hal.h"
 #include "cmsis_os.h"
-#include "usb.h"
-#include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "gex_hooks.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -101,7 +99,7 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
+  GEX_PreInit();
 
   /* USER CODE BEGIN 2 */
 

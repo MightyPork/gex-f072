@@ -52,7 +52,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stm32_assert.h"
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/
