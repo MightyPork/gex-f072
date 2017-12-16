@@ -16,7 +16,7 @@ GEX_PLAT=F072_DISCOVERY
 ######################################
 # target
 ######################################
-TARGET = gex-f072
+TARGET = firmware
 
 
 ######################################
@@ -139,7 +139,8 @@ AS_DEFS =
 # C defines
 C_DEFS =  \
 -DUSE_HAL_DRIVER \
--DSTM32F072xB
+-DSTM32F072xB \
+-DARM_MATH_CM0PLUS
 
 C_DEFS += -DGEX_PLAT_$(GEX_PLAT) $(GEX_CDEFS)
 
