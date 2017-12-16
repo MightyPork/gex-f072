@@ -91,7 +91,7 @@ Src/stm32f0xx_it.c \
 Src/system_stm32f0xx.c \
 Src/main.c  
 
-C_SOURCES += $(foreach sdir,$(GEX_SRC_DIR),$(wildcard $(sdir)/*.c))
+C_SOURCES += $(foreach sdir,$(GEX_SRC_DIR),$(wildcard $(sdir)/*.c)) $(GEX_SOURCES)
 
 # ASM sources
 ASM_SOURCES =  \
