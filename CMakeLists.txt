@@ -68,6 +68,7 @@ include_directories(
         User/TinyFrame
         User/framework
         User/platform
+        User/tasks
         User/units/neopixel
         User/units/pin
         User/units/system
