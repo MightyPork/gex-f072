@@ -60,6 +60,7 @@ include_directories(
         Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
         Middlewares/Third_Party/FreeRTOS/Source/include
         Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3
+        Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0
 
         # Application
         User
