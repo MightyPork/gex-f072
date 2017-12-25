@@ -10,6 +10,10 @@
 #   2015-07-22 - first version
 # ------------------------------------------------
 
+DISABLE_DEBUG := 0
+DISABLE_MSC   := 0
+DISABLE_TEST_UNIT := 0
+
 include User/gex.mk
 GEX_PLAT=F072_DISCOVERY
 
