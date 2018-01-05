@@ -81,6 +81,22 @@ Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim_ex.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_adc.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_comp.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_crc.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_crs.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_dac.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_dma.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_exti.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_gpio.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_i2c.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_pwr.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_rcc.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_rtc.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_spi.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_tim.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_usart.c \
+Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_utils.c \
 Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c \
 Middlewares/Third_Party/FreeRTOS/Source/croutine.c \
 Middlewares/Third_Party/FreeRTOS/Source/event_groups.c \
@@ -125,7 +141,7 @@ BIN = $(CP) -O binary -S
 # CFLAGS
 #######################################
 # cpu
-CPU = -mcpu=cortex-m0
+CPU = -mcpu=cortex-m0plus
 
 # fpu
 # NONE for Cortex-M0/M0+/M3
