@@ -49,7 +49,7 @@ usort($sections, function($a,$b) {
 });
 
 echo "--- FLASH ---\n";
-$limit = 40;
+$limit = 50;
 foreach($sections as $s) {
   if ($s->type=='DATA')echo "\033[33m";else echo "\033[32m";
   echo "{$s->type}\033[0m  {$s->addr}  \033[96m{$s->size}\033[0m\t".
@@ -96,7 +96,7 @@ usort($sections, function($a,$b) {
 });
 
 echo "\n--- RAM ---\n";
-$limit = 20;
+$limit = 30;
 foreach($sections as $s) {
   if ($s->type=='DATA')echo "\033[33m";else echo "\033[32m";
   echo "{$s->type}\033[0m  {$s->addr}  \033[96m{$s->size}\033[0m\t".
