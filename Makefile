@@ -104,6 +104,7 @@ Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0/port.c \
 Middlewares/Third_Party/FreeRTOS/Source/queue.c \
 Middlewares/Third_Party/FreeRTOS/Source/tasks.c \
 Middlewares/Third_Party/FreeRTOS/Source/timers.c \
+Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c \
 Src/stm32f0xx_hal_msp.c \
 Src/stm32f0xx_hal_timebase_TIM.c \
 Src/stm32f0xx_it.c \

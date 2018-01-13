@@ -10,8 +10,9 @@ add_definitions(
         -D__packed=__attribute__\(\(__packed__\)\)
         -D__COUNTER__=__LINE__
         -DUSBD_SUPPORT_USER_STRING=1
-        -DVERBOSE_ASSERT=1
+        -DASSERT_FILENAMES=1
         -DDEBUG_VFS=1
+        -DDEBUG_MALLOC=1
         -DUSE_FULL_ASSERT=1
         -DUSE_FULL_LL_DRIVER=1
         -DVERBOSE_HARDFAULT=1
