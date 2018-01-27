@@ -71,9 +71,7 @@ include_directories(
         User/framework
         User/platform
         User/tasks
-        User/units/neopixel
-        User/units/pin
-        User/units/system
+        User/units
         Inc
 )
 
