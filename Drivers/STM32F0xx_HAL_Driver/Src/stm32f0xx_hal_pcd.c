@@ -908,7 +908,7 @@ HAL_StatusTypeDef HAL_PCD_EP_Transmit(PCD_HandleTypeDef *hpcd, uint8_t ep_addr, 
   if (ep->xfer_len > ep->maxpacket)
   {
     len=ep->maxpacket;
-    ep->xfer_len-=len; 
+    ep->xfer_len-=len;
   }
   else
   {  
@@ -938,7 +938,7 @@ HAL_StatusTypeDef HAL_PCD_EP_Transmit(PCD_HandleTypeDef *hpcd, uint8_t ep_addr, 
       pmabuffer = ep->pmaaddr0;
     }
 
-    PCD_WritePMA(hpcd->Instance, ep->xfer_buff, pmabuffer, len);
+    PCD_WritePMA(hpcd->Instance, ep->xfer_buff, pmabuffer, (uint16_t) len);
     PCD_FreeUserBuffer(hpcd->Instance, ep->num, ep->is_in)
   }
 
@@ -1335,8 +1335,12 @@ static HAL_StatusTypeDef PCD_EP_ISR_Handler(PCD_HandleTypeDef *hpcd)
         
         /* clear int flag */
         PCD_CLEAR_TX_EP_CTR(hpcd->Instance, EPindex);
-        
-        /* IN double Buffering*/
+
+          // This function is full of strange code that causes the double buffered mode to not work
+#define WANT_HAL_BUGS 0
+
+#if WANT_HAL_BUGS
+          /* IN double Buffering*/
         if (ep->doublebuffer == 0U)
         {
           ep->xfer_count = PCD_GET_EP_TX_CNT(hpcd->Instance, ep->num);
@@ -1365,13 +1369,36 @@ static HAL_StatusTypeDef PCD_EP_ISR_Handler(PCD_HandleTypeDef *hpcd)
               PCD_WritePMA(hpcd->Instance, ep->xfer_buff, ep->pmaaddr1, ep->xfer_count);
             }
           }
-          PCD_FreeUserBuffer(hpcd->Instance, ep->num, PCD_EP_DBUF_IN) 
+          PCD_FreeUserBuffer(hpcd->Instance, ep->num, PCD_EP_DBUF_IN)
         }
+
         /*multi-packet on the NON control IN endpoint*/
         ep->xfer_count = PCD_GET_EP_TX_CNT(hpcd->Instance, ep->num);
+
+#else
+        /* IN double Buffering*/
+        if (ep->doublebuffer == 0U)
+        {
+          ep->xfer_count = PCD_GET_EP_TX_CNT(hpcd->Instance, ep->num);
+        }
+        else
+        {
+          if ((PCD_GET_ENDPOINT(hpcd->Instance, ep->num)& USB_EP_DTOG_TX) == USB_EP_DTOG_TX)
+          {
+            /*read from endpoint BUF0Addr buffer*/
+            ep->xfer_count = PCD_GET_EP_DBUF0_CNT(hpcd->Instance, ep->num);
+          }
+          else
+          {
+            /*read from endpoint BUF1Addr buffer*/
+            ep->xfer_count = PCD_GET_EP_DBUF1_CNT(hpcd->Instance, ep->num);
+          }
+        }
+#endif
+
         ep->xfer_buff+=ep->xfer_count;
-       
-        /* Zero Length Packet? */
+
+        /* Zero Length Packet? <- what? */
         if (ep->xfer_len == 0U)
         {
           /* TX COMPLETE */

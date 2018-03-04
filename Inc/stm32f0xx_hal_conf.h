@@ -43,7 +43,7 @@
 #include "main.h"
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-#define USBD_NUM_ENDPOINTS 3
+#define USBD_NUM_ENDPOINTS 4
 
 /* ########################## Module Selection ############################## */
 /**
