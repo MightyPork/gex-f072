@@ -35,6 +35,7 @@ OPT = -Os
 #######################################
 # paths
 #######################################
+#Application/User/Src/stm32f0xx_hal_timebase_TIM.c \
 # source path
 SOURCES_DIR =  \
 Application \
@@ -45,7 +46,6 @@ Application/User/Src/freertos.c \
 Application/User/Src/gpio.c \
 Application/User/Src/main.c \
 Application/User/Src/stm32f0xx_hal_msp.c \
-Application/User/Src/stm32f0xx_hal_timebase_TIM.c \
 Application/User/Src/stm32f0xx_it.c \
 Application/User/Src/usb.c \
 Drivers \
@@ -107,10 +107,10 @@ Middlewares/Third_Party/FreeRTOS/Source/tasks.c \
 Middlewares/Third_Party/FreeRTOS/Source/timers.c \
 Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c \
 Src/stm32f0xx_hal_msp.c \
-Src/stm32f0xx_hal_timebase_TIM.c \
-Src/stm32f0xx_it.c \
 Src/system_stm32f0xx.c \
 Src/main.c
+#Src/stm32f0xx_hal_timebase_TIM.c \
+#Src/stm32f0xx_it.c \
 
 C_SOURCES += $(foreach sdir,$(GEX_SRC_DIR),$(wildcard $(sdir)/*.c)) $(GEX_SOURCES)
 
