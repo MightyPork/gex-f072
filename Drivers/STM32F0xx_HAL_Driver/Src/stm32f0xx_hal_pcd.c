@@ -70,11 +70,23 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
+#include <utils/hexdump.h>
 #include "stm32f0xx_hal.h"
+#include "stdbool.h"
 
 /** @addtogroup STM32F0xx_HAL_Driver
   * @{
   */
+
+static inline void dbgShowTog(PCD_HandleTypeDef *hpcd, bool strobe)
+{
+    PCD_EPTypeDef *ep = &hpcd->IN_ep[2];
+    
+    uint32_t v = (GPIOB->ODR & ~0b111);
+    if ((PCD_GET_ENDPOINT(hpcd->Instance, ep->num)& USB_EP_DTOG_TX) == USB_EP_DTOG_TX) v |= 1;
+    if ((PCD_GET_ENDPOINT(hpcd->Instance, ep->num)& USB_EP_DTOG_RX) == USB_EP_DTOG_RX) v |= 2;
+    GPIOB->ODR = v;
+}
 
 #ifdef HAL_PCD_MODULE_ENABLED
 
@@ -738,12 +750,16 @@ HAL_StatusTypeDef HAL_PCD_EP_Open(PCD_HandleTypeDef *hpcd, uint8_t ep_addr, uint
       /* Clear the data toggle bits for the endpoint IN/OUT*/
       PCD_CLEAR_RX_DTOG(hpcd->Instance, ep->num)
       PCD_CLEAR_TX_DTOG(hpcd->Instance, ep->num)
+
       PCD_RX_DTOG(hpcd->Instance, ep->num);
+
       /* Configure DISABLE status for the Endpoint*/
       PCD_SET_EP_TX_STATUS(hpcd->Instance, ep->num, USB_EP_TX_DIS)
       PCD_SET_EP_RX_STATUS(hpcd->Instance, ep->num, USB_EP_RX_DIS)
     }
-  } 
+  }
+
+    dbgShowTog(hpcd, false);
   
   __HAL_UNLOCK(hpcd);   
   return ret;
@@ -903,7 +919,7 @@ HAL_StatusTypeDef HAL_PCD_EP_Transmit(PCD_HandleTypeDef *hpcd, uint8_t ep_addr, 
   ep->xfer_count = 0U;
   ep->is_in = 1U;
   ep->num = ep_addr & 0x7FU;
-  
+
   /*Multi packet transfer*/
   if (ep->xfer_len > ep->maxpacket)
   {
@@ -925,22 +941,24 @@ HAL_StatusTypeDef HAL_PCD_EP_Transmit(PCD_HandleTypeDef *hpcd, uint8_t ep_addr, 
   else
   {
     /*Write the data to the USB endpoint*/
-    if ((PCD_GET_ENDPOINT(hpcd->Instance, ep->num)& USB_EP_DTOG_TX) == USB_EP_DTOG_TX)
+    if ((PCD_GET_ENDPOINT(hpcd->Instance, ep->num)& USB_EP_DTOG_RX) == USB_EP_DTOG_RX)
     {
-      /*Set the Double buffer counter for pmabuffer1*/
-      PCD_SET_EP_DBUF1_CNT(hpcd->Instance, ep->num, ep->is_in, len)
-      pmabuffer = ep->pmaaddr1;
+        /*Set the Double buffer counter for pmabuffer0*/
+        PCD_SET_EP_DBUF0_CNT(hpcd->Instance, ep->num, ep->is_in, len)
+        pmabuffer = ep->pmaaddr0;
     }
     else
     {
-      /*Set the Double buffer counter for pmabuffer0*/
-      PCD_SET_EP_DBUF0_CNT(hpcd->Instance, ep->num, ep->is_in, len)
-      pmabuffer = ep->pmaaddr0;
+        /*Set the Double buffer counter for pmabuffer1*/
+        PCD_SET_EP_DBUF1_CNT(hpcd->Instance, ep->num, ep->is_in, len)
+        pmabuffer = ep->pmaaddr1;
     }
 
     PCD_WritePMA(hpcd->Instance, ep->xfer_buff, pmabuffer, (uint16_t) len);
     PCD_FreeUserBuffer(hpcd->Instance, ep->num, ep->is_in)
   }
+
+  dbgShowTog(hpcd, false);
 
   PCD_SET_EP_TX_STATUS(hpcd->Instance, ep->num, USB_EP_TX_VALID)
      
@@ -1192,10 +1210,14 @@ static HAL_StatusTypeDef PCD_EP_ISR_Handler(PCD_HandleTypeDef *hpcd)
   uint8_t EPindex;
   __IO uint16_t wIstr;  
   __IO uint16_t wEPVal = 0U;
-  
+
+    GPIOB->ODR |= 4;
+    for(volatile i=0;i<20;i++);
+    GPIOB->ODR &= ~4;
   /* stay in loop while pending interrupts */
   while (((wIstr = hpcd->Instance->ISTR) & USB_ISTR_CTR) != 0U)
   {
+
     /* extract highest priority endpoint number */
     EPindex = (uint8_t)(wIstr & USB_ISTR_EP_ID);
     
@@ -1376,6 +1398,7 @@ static HAL_StatusTypeDef PCD_EP_ISR_Handler(PCD_HandleTypeDef *hpcd)
         ep->xfer_count = PCD_GET_EP_TX_CNT(hpcd->Instance, ep->num);
 
 #else
+          uint8_t tmpbuf[64];
         /* IN double Buffering*/
         if (ep->doublebuffer == 0U)
         {
@@ -1383,20 +1406,33 @@ static HAL_StatusTypeDef PCD_EP_ISR_Handler(PCD_HandleTypeDef *hpcd)
         }
         else
         {
+          // NOTE: DTOG is inverted by the device at the end of a transaction
+
           if ((PCD_GET_ENDPOINT(hpcd->Instance, ep->num)& USB_EP_DTOG_TX) == USB_EP_DTOG_TX)
           {
             /*read from endpoint BUF0Addr buffer*/
             ep->xfer_count = PCD_GET_EP_DBUF0_CNT(hpcd->Instance, ep->num);
+
+//              PCD_ReadPMA(hpcd->Instance, tmpbuf, ep->pmaaddr0, ep->xfer_count);
+//              hexDump("buf0", tmpbuf, ep->xfer_count);
           }
           else
           {
             /*read from endpoint BUF1Addr buffer*/
             ep->xfer_count = PCD_GET_EP_DBUF1_CNT(hpcd->Instance, ep->num);
+
+//              PCD_ReadPMA(hpcd->Instance, tmpbuf, ep->pmaaddr1, ep->xfer_count);
+//              hexDump("buf1", tmpbuf, ep->xfer_count);
           }
         }
 #endif
 
+//        dbg("ISR: ep %02x Xferd %db, remain %d", ep->num, ep->xfer_count, ep->xfer_len);
+
         ep->xfer_buff+=ep->xfer_count;
+
+
+        if(ep->num==2)  dbgShowTog(hpcd, true);
 
         /* Zero Length Packet? <- what? */
         if (ep->xfer_len == 0U)
@@ -1406,6 +1442,7 @@ static HAL_StatusTypeDef PCD_EP_ISR_Handler(PCD_HandleTypeDef *hpcd)
         }
         else
         {
+          trap("multipart!");
           HAL_PCD_EP_Transmit(hpcd, ep->num, ep->xfer_buff, ep->xfer_len);
         }
       } 
