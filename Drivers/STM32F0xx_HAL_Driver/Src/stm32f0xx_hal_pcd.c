@@ -1121,6 +1121,8 @@ PCD_StateTypeDef HAL_PCD_GetState(PCD_HandleTypeDef *hpcd)
   * @}
   */
 
+#pragma GCC push_options //GEX addition
+#pragma GCC optimize ("O2")
 /** @addtogroup PCD_Private_Functions
   * @{
   */
@@ -1179,6 +1181,7 @@ void PCD_ReadPMA(USB_TypeDef  *USBx, uint8_t *pbUsrBuf, uint16_t wPMABufAddr, ui
     *pbUsrBuf++ = ((temp >> 0) & 0xFF);
   }
 }
+#pragma GCC pop_options //GEX addition
 
 /**
   * @brief  This function handles PCD Endpoint interrupt request.
@@ -1340,10 +1343,10 @@ static HAL_StatusTypeDef PCD_EP_ISR_Handler(PCD_HandleTypeDef *hpcd)
         if (ep->doublebuffer == 0U)
         {
           ep->xfer_count = PCD_GET_EP_TX_CNT(hpcd->Instance, ep->num);
-          if (ep->xfer_count != 0)
-          {
-            PCD_WritePMA(hpcd->Instance, ep->xfer_buff, ep->pmaadress, ep->xfer_count);
-          }
+//          if (ep->xfer_count != 0)
+//          {
+//            PCD_WritePMA(hpcd->Instance, ep->xfer_buff, ep->pmaadress, ep->xfer_count); // GEX FIX
+//          }
         }
         else
         {
@@ -1368,7 +1371,7 @@ static HAL_StatusTypeDef PCD_EP_ISR_Handler(PCD_HandleTypeDef *hpcd)
           PCD_FreeUserBuffer(hpcd->Instance, ep->num, PCD_EP_DBUF_IN) 
         }
         /*multi-packet on the NON control IN endpoint*/
-        ep->xfer_count = PCD_GET_EP_TX_CNT(hpcd->Instance, ep->num);
+//        ep->xfer_count = PCD_GET_EP_TX_CNT(hpcd->Instance, ep->num); // GEX FIX
         ep->xfer_buff+=ep->xfer_count;
        
         /* Zero Length Packet? */
