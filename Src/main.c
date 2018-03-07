@@ -47,7 +47,6 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include <stm32f0xx_ll_gpio.h>
 #include "main.h"
 #include "stm32f0xx_hal.h"
 #include "cmsis_os.h"
@@ -150,23 +149,46 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 #else
+  volatile uint32_t counter;
+
   /* Set FLASH latency */
   LL_FLASH_SetLatency(LL_FLASH_LATENCY_1);
 
+#if !PLAT_FULL_XTAL
   LL_RCC_HSE_EnableBypass();
+#endif
+
   LL_RCC_HSE_Enable();
-  while(LL_RCC_HSE_IsReady() != 1) {}
+  counter = 0;
+  while(LL_RCC_HSE_IsReady() != 1 && counter < 10000) {
+    counter++;
+  }
 
-  /* Main PLL configuration and activation */
-  LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLL_MUL_6, LL_RCC_PREDIV_DIV_1);
+  if (LL_RCC_HSE_IsReady() == 0) {
+    // Looks like HSE xtal doesn't work - use HSI48
+    LL_RCC_HSI48_Enable();
+    while(LL_RCC_HSI48_IsReady() != 1) {}
 
-  LL_RCC_PLL_Enable();
-  while(LL_RCC_PLL_IsReady() != 1) {}
+    LL_CRS_EnableAutoTrimming(); // crystalless USB
 
-  /* Sysclk activation on the main PLL */
-  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
-  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
-  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL) {}
+    LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
+    LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSI48);
+    while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL) {}
+
+  } else {
+    // external 8 MHz xtal
+
+    /* Main PLL configuration and activation */
+    LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLL_MUL_6, LL_RCC_PREDIV_DIV_1);
+
+    LL_RCC_PLL_Enable();
+    while(LL_RCC_PLL_IsReady() != 1) {}
+
+    /* Sysclk activation on the main PLL */
+    LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
+    LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
+    while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL) {}
+  }
 
   /* Set APB1 prescaler */
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
@@ -175,11 +197,11 @@ void SystemClock_Config(void)
   LL_SetSystemCoreClock(48000000);
 #endif
 
+  // TODO this can be rewritten using LL while greatly reducing code size
 
     /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK|RCC_CLOCKTYPE_PCLK1;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;

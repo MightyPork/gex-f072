@@ -84,3 +84,4 @@ cmake-build-*
 /main.flash.map
 /disassembly.lst
 /main.ram.map
+build/*

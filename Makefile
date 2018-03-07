@@ -15,6 +15,7 @@ DISABLE_MSC   := 0
 CDC_LOOPBACK_TEST := 0
 
 include User/gex.mk
+#GEX_PLAT=F072_HUB
 GEX_PLAT=F072_DISCOVERY
 
 ######################################
@@ -241,6 +242,14 @@ $(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
 flash: $(BUILD_DIR)/$(TARGET).bin
 	@printf "  FLASH  $<\n"
 	@st-flash write $< 0x8000000
+
+$(BUILD_DIR)/$(TARGET).dfu: $(BUILD_DIR)/$(TARGET).hex
+	@printf "  DFU-GEN  $<\n"
+	dfu-convert -i $< $@
+
+dfu: $(BUILD_DIR)/$(TARGET).dfu
+	@printf "  DFU UPLOAD  $<\n"
+	dfu-util -a 0 -D $<
 
 patch:
 	@./cubepatch.sh

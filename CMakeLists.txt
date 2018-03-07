@@ -18,7 +18,7 @@ add_definitions(
         -DVERBOSE_HARDFAULT=1
         -DUSE_STACK_MONITOR=1
         -DUSE_DEBUG_UART=1
-        -DGEX_PLAT_F072_DISCOVERY
+        -DGEX_PLAT_F072_HUB
         -DHAL_TSC_MODULE_ENABLED
 )
 
