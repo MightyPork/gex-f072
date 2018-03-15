@@ -50,6 +50,7 @@
 #include "main.h"
 #include "stm32f0xx_hal.h"
 #include "cmsis_os.h"
+#include <stdbool.h>
 
 /* USER CODE BEGIN Includes */
 #include "gex_hooks.h"
@@ -164,7 +165,9 @@ void SystemClock_Config(void)
     counter++;
   }
 
+  bool has_pll = 0;
   if (LL_RCC_HSE_IsReady() == 0) {
+
     // Looks like HSE xtal doesn't work - use HSI48
     LL_RCC_HSI48_Enable();
     while(LL_RCC_HSI48_IsReady() != 1) {}
@@ -173,7 +176,7 @@ void SystemClock_Config(void)
 
     LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
     LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSI48);
-    while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL) {}
+    while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI48) {}
 
   } else {
     // external 8 MHz xtal
@@ -188,6 +191,8 @@ void SystemClock_Config(void)
     LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
     LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
     while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL) {}
+
+      has_pll = true;
   }
 
   /* Set APB1 prescaler */
@@ -202,7 +207,7 @@ void SystemClock_Config(void)
     /**Initializes the CPU, AHB and APB busses clocks 
     */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK|RCC_CLOCKTYPE_PCLK1;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.SYSCLKSource = has_pll ? RCC_SYSCLKSOURCE_PLLCLK : RCC_SYSCLKSOURCE_HSI48;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
 
