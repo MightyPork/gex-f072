@@ -1,3 +1,3 @@
 [submodule "User"]
 	path = User
-	url = git@github.com:MightyPork/gex-core
+	url = git@github.com:gexpander/gex-core
