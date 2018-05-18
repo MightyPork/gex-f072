@@ -10,6 +10,21 @@
 #   2015-07-22 - first version
 # ------------------------------------------------
 
+UNIT_NPX = 1
+UNIT_TEST = 1
+UNIT_DO = 1
+UNIT_DI = 1
+UNIT_USART = 1
+UNIT_1WIRE = 1
+UNIT_I2C = 1
+UNIT_SPI = 1
+UNIT_ADC = 1
+UNIT_SIPO = 1
+UNIT_FCAP = 1
+UNIT_TOUCH = 1
+UNIT_PWMDIM = 1
+UNIT_DAC = 1
+
 DISABLE_DEBUG := 0
 DISABLE_MSC   := 0
 CDC_LOOPBACK_TEST := 0
@@ -114,7 +129,7 @@ Src/main.c
 #Src/stm32f0xx_hal_timebase_TIM.c \
 #Src/stm32f0xx_it.c \
 
-C_SOURCES += $(foreach sdir,$(GEX_SRC_DIR),$(wildcard $(sdir)/*.c)) $(GEX_SOURCES)
+C_SOURCES += $(foreach x,$(GEX_SRC_DIR),$(wildcard $(x)/*.c)) $(GEX_SOURCES)
 
 # ASM sources
 ASM_SOURCES =  \
