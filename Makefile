@@ -31,8 +31,8 @@ CDC_LOOPBACK_TEST := 0
 
 include User/gex.mk
 #GEX_PLAT=F072_ZERO
-GEX_PLAT=F072_HUB
-#GEX_PLAT=F072_DISCOVERY
+#GEX_PLAT=F072_HUB
+GEX_PLAT=F072_DISCOVERY
 
 ######################################
 # target
