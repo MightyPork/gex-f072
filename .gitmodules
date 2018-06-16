@@ -1,3 +1,3 @@
 [submodule "User"]
 	path = User
-	url = git@github.com:gexpander/gex-core
+	url = https://git.ondrovo.com/gex/gex-core.git
