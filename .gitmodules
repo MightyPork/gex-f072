@@ -1,0 +1,3 @@
+[submodule "GexCore"]
+	path = GexCore
+	url = git@git.ondrovo.com:gex/gex-core.git
