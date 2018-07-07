@@ -1,0 +1,39 @@
+# GEX platform
+# - alternate configurations defining board layout anb capabilities
+
+GEX_PLAT=F072_ZERO
+#GEX_PLAT=F072_HUB
+#GEX_PLAT=F072_DISCOVERY
+
+# Disable debug UART (saves some Flash and RAM)
+DISABLE_DEBUG     = 0
+
+# Disable USB Mass Storage support 
+# - significant FLASH and RAM savings, but the virtual filesystem will be
+#   accessible only through the communication interface
+DISABLE_MSC       = 0
+
+# Disconnect GEX from the USB library, and connect CDC/ACM Rx directly to Tx
+# - this is used during porting / USB debugging to verify the USB subsystem 
+#   is configured correcctly
+CDC_LOOPBACK_TEST = 0
+
+# Enabled GEX units
+# - comment out units you don't want to include in the firmware image
+# - additional units have minimal impact on performance, but take up space
+#   in the Flash memory; enabling all units at once might not even be possible
+#   due to this limitation
+# - this also lets you switch between alternate implementations
+GEX_UNITS += 1wire
+GEX_UNITS += adc
+GEX_UNITS += dac
+GEX_UNITS += din
+GEX_UNITS += dout
+GEX_UNITS += fcap
+GEX_UNITS += i2c
+GEX_UNITS += neopixel
+GEX_UNITS += pwmdim
+GEX_UNITS += sipo
+GEX_UNITS += spi
+GEX_UNITS += touch
+GEX_UNITS += usart

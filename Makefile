@@ -8,6 +8,9 @@ GEX_PLAT          = UNSET
 DISABLE_DEBUG     = 0
 DISABLE_MSC       = 0
 CDC_LOOPBACK_TEST = 0
+
+# Enable the embedding of debug symbols in the binary
+# - might slightly increase build speed, no impact on binary size
 DEBUG             = 1
 
 PLAT_C_DIRS =
