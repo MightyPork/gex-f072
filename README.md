@@ -1,7 +1,7 @@
 # GEX Firmware for STM32F072
 
 Copy `build.mk.example` to `build.mk`, configure as desired,
-and build the firmware image with `make build`.
+and build the firmware image with `make`.
 
 Individual GEX units can be enabled or disabled in this config file, and the target platform is selected here as well.
 
