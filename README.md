@@ -20,7 +20,7 @@ Please submit patches needed to fix incompatibilities, or at least let me know.
 
 ## Make Targets
 
-- **make** - basic build (recommended to use with `-j4` for faster builds)
+- **make** - basic build (recommended to use with `-j` for faster builds)
 - **make flash** - flash using `st-flash`
 - **make dfu** - flash using `dfu-convert` and `dfu-util`
 - **make clean** - clean files generated during build
