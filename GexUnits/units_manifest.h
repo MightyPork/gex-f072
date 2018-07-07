@@ -1,7 +1,7 @@
 // This is a GEX units manifest file
-// For a unit to be included in the firmware, it's uppercase name
+// For a unit to be included in the firmware, its uppercase name
 // must be included in the GEX_UNITS list in build.mk, and it must have 
-// a section here.
+// an entry here.
 
 #ifdef ENABLE_UNIT_1WIRE
 #include "1wire/unit_1wire.h"
@@ -45,14 +45,6 @@
 
 #ifdef ENABLE_UNIT_SPI
 #include "spi/unit_spi.h"
-#endif
-
-#ifdef ENABLE_UNIT_TEMPLATE
-#include "template/unit_template.h"
-#endif
-
-#ifdef ENABLE_UNIT_TEST
-#include "test/unit_test.h"
 #endif
 
 #ifdef ENABLE_UNIT_TOUCH
