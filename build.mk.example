@@ -1,5 +1,5 @@
 # GEX platform
-# - alternate configurations defining board layout anb capabilities
+# - alternate configurations defining board layout and capabilities
 
 GEX_PLAT=F072_ZERO
 #GEX_PLAT=F072_HUB
