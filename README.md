@@ -2,12 +2,9 @@
 
 This is the STM32F072 GEX firmware, supporting all STM32F072 GEX boards (including the F072 Discovery).
 
-- [git.ondrovo.com/gex/gex-f072](https://git.ondrovo.com/gex/gex-f072) 
-  - upstream repository
-- [github.com/gexpander/gex-f072](https://github.com/gexpander/gex-f072) 
-  - a GitHub mirror of this repository, accepting issue reports and pull requests
-- [github.com/gexpander/gex-core](https://github.com/gexpander/gex-core) 
-  - a GitHub mirror of the GexCore submodule
+- [git.ondrovo.com/gex/gex-f072](https://git.ondrovo.com/gex/gex-f072) - upstream repository
+- [github.com/gexpander/gex-f072](https://github.com/gexpander/gex-f072) - a GitHub mirror of this repository, accepting issue reports and pull requests
+- [github.com/gexpander/gex-core](https://github.com/gexpander/gex-core) - a GitHub mirror of the GexCore submodule
 
 Make sure you clone the repository recursively (`git clone --recursive ...`), or run 
 `git submodule update --init` afterwards, to initialize the GexCore submodule.
